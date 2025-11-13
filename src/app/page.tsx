@@ -19,9 +19,9 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import AddressInput from "@/components/AddressInput";
-import LoadingSection from "@/components/LoadingSection";
-import ResultsSection, { type PropertyData } from "@/components/ResultsSection";
+import AddressInput from "@/features/zoningReport/AddressInput";
+import LoadingSection from "@/features/zoningReport/LoadingSection";
+import ResultsSection, { type PropertyData } from "@/features/zoningReport/ResultsSection";
 import { useOpenAI } from "@/app/providers/OpenAIProvider";
 
 
