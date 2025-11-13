@@ -1,6 +1,6 @@
 "use client"
 
-import { createCheckoutUrl } from "@/src/actions/stripe"
+import { createCheckoutUrl } from "@/features/billing/actions/stripe"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@clerk/nextjs"
 import { useRouter } from "next/navigation"
