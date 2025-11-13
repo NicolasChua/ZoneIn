@@ -1,8 +1,9 @@
 ---
-description: 
-globs: 
+description: Rules and guidelines for working with the UIC-Flashpoint-Pitch-Hackathon-2025 repository. This file documents the project's architecture, key patterns, and development commands.
+globs: ["**/*"]
 alwaysApply: true
 ---
+
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
@@ -10,59 +11,79 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ### Development
-- `npm run dev` - Start development server with Turbopack
-- `npm run build` - Build for production
-- `npm run start` - Start production server
+
+-   `npm run start:dev` - Start the Next.js development server on port 8080.
+-   `npm run build` - Build the application for production.
+-   `npm run start` - Start the production server.
 
 ### Code Quality
-- `npm run lint` - Run ESLint
-- `npm run lint:fix` - Run ESLint with auto-fix
-- `npm run types` - Run TypeScript type checking
-- `npm run format:write` - Format code with Prettier
-- `npm run clean` - Run both lint:fix and format:write
+
+-   `npm run lint` - Run ESLint to find and report issues.
+-   `npm run format:check` - Check code formatting with Prettier.
+-   `npm run tsc` - Run the TypeScript compiler to check for type errors.
+-   `npm run check` - Run all quality checks sequentially (format, lint, types, and tests).
 
 ### Database
-- `npx drizzle-kit push` - Push schema changes to database
-- `npx drizzle-kit generate` - Generate migration files
-- `npx drizzle-kit migrate` - Run migrations
-- `npx bun db/seed` - Seed database
-- `npx supabase start` - Start local Supabase instance
+
+-   `npm run db:push` - Push schema changes to the database using Drizzle Kit.
+-   `npm run db:migrate` - Run migrations using Drizzle Kit.
+-   `npm run db:seed` - Seed the database with initial data.
+-   `npx supabase start` - Start the local Supabase instance.
 
 ### Testing
-- `npm run test` - Run all tests (unit + e2e)
-- `npm run test:unit` - Run Jest unit tests
-- `npm run test:e2e` - Run Playwright e2e tests
+
+-   `npm run test` - Run the Vitest test suite in watch mode.
+-   `npm run test:ci` - Run the Vitest test suite once with coverage, suitable for CI environments.
 
 ### Shadcn UI Components
-- `npx shadcn@latest add [component-name]` - Install new Shadcn UI components
+
+-   `npx shadcn-ui@latest add [component-name]` - Install new Shadcn UI components.
 
 ## Architecture
 
-This is a Next.js 15 SaaS template using the App Router with clear separation between authenticated and unauthenticated routes.
+This is a consolidated Next.js 15 application using the App Router. It has been refactored into a feature-based architecture to improve scalability and maintainability.
 
-### Route Structure
-- `/app/(unauthenticated)` - Public routes
-  - `(marketing)` - Landing pages, pricing, features
-  - `(auth)` - Login and signup flows
-- `/app/(authenticated)` - Protected routes requiring Clerk auth
-  - `dashboard` - Main application with account, billing, support sections
-- `/app/api` - API routes including Stripe webhook handler
+### Project Structure
+
+-   `/config/env/` - Contains all environment variable files (`.env.local`, `.env.example`, etc.).
+-   `/src/` - Contains all application source code.
+    -   `/src/app/` - Core Next.js routing, layouts, and pages.
+        -   `_models/` - Private folder for business logic.
+            -   `domain/` - Framework-agnostic business entities and rules.
+            -   `codec/` - Data validation and transformation schemas (e.g., Zod).
+        -   `(authenticated)/` & `(unauthenticated)/` - Route groups for auth separation.
+        -   `api/` - API route handlers.
+    -   `/src/components/ui/` - Generic, reusable UI components from shadcn/ui.
+    -   `/src/db/` - Drizzle ORM schema, migrations, and database client instance.
+    -   `/src/features/` - Domain-specific modules, co-locating UI components, server actions, and hooks.
+    -   `/src/hooks/` - Global, reusable React hooks.
+    -   `/src/lib/` - Core utilities and client initializations (e.g., Stripe).
+    -   `/src/providers/` - React context providers.
 
 ### Key Patterns
-- **Server Actions** in `/actions` for data mutations (customers, Stripe operations)
-- **Database Schema** in `/db/schema` using Drizzle ORM with PostgreSQL
-- **UI Components** in `/components/ui` from Shadcn UI library
-- **Authentication** handled by Clerk middleware with protected route groups
-- **Payments** integrated via Stripe with webhook handling
+
+-   **Feature-Driven Development**: Code is organized by application features (e.g., `/src/features/billing`) rather than by type.
+-   **Server Actions**: Asynchronous server-side functions are defined within their respective feature folders (e.g., `src/features/billing/actions/stripe.ts`).
+-   **Database Schema**: Defined in `src/db/schema` using Drizzle ORM with PostgreSQL.
+-   **Authentication**: Handled by Clerk middleware, protecting route groups and providing user context.
+-   **Payments**: Integrated via Stripe, with server actions for creating checkouts and a webhook handler in `src/app/api/stripe/webhooks`.
 
 ### Data Flow
-1. Authentication state managed by Clerk (`@clerk/nextjs`)
-2. Customer data stored in PostgreSQL via Drizzle ORM
-3. Stripe integration for subscription management
-4. Server actions handle all data mutations with proper auth checks
+
+1.  Authentication state is managed by Clerk (`@clerk/nextjs`).
+2.  Customer and application data is stored in a PostgreSQL database, accessed via Drizzle ORM.
+3.  Stripe handles subscription creation and management, communicating updates via webhooks.
+4.  Server actions in `src/features` folders handle all data mutations, ensuring server-side security and logic.
 
 ### Environment Variables Required
-- `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` - Clerk public key
-- `CLERK_SECRET_KEY` - Clerk secret key
-- `STRIPE_SECRET_KEY` - Stripe secret key
-- Database connection handled by Supabase CLI
+
+All variables are defined in `/config/env/.env.example`.
+
+-   `DATABASE_URL` - Connection string for the PostgreSQL database.
+-   `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` - Clerk public key.
+-   `CLERK_SECRET_KEY` - Clerk secret key.
+-   `STRIPE_SECRET_KEY` - Stripe secret key.
+-   `STRIPE_WEBHOOK_SECRET` - Stripe webhook signing secret.
+-   `NEXT_PUBLIC_STRIPE_PAYMENT_LINK_*` - Stripe payment links for pricing plans.
+-   `OPENAI_API_KEY` - API key for OpenAI.
+-   `GOOGLE_MAPS_API_KEY` - API key for Google Maps integration.
