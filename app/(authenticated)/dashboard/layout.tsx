@@ -1,4 +1,4 @@
-import { getCustomerByUserId } from "@/actions/customers"
+import { getCustomerByUserId } from "@/src/actions/customers"
 import { currentUser } from "@clerk/nextjs/server"
 import { redirect } from "next/navigation"
 import DashboardClientLayout from "./_components/layout-client"
