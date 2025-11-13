@@ -1,8 +1,7 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# See <https://help.github.com/articles/ignoring-files/> for more about ignoring files.
 
 # dependencies
 /node_modules
-frontend/node_modules
 /.pnp
 .pnp.*
 .yarn/*
@@ -10,9 +9,6 @@ frontend/node_modules
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
-
-# env
-/frontend/.env
 
 # testing
 /coverage
@@ -35,8 +31,9 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files
-.env*.local
 !.env.example
+config/env/*.local
+config/env/.env.test
 
 # vercel
 .vercel
