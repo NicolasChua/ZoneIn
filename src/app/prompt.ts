@@ -1,5 +1,11 @@
-// app/prompt.js
-// Small default prompt fragment used by the OpenAI provider.
+/**
+ * @description
+ * This file contains the default prompt template used for generating a zoning report
+ * with the OpenAI API. It includes instructions, rules, tools, and a data schema
+ * for the AI model to follow.
+ *
+ * @exports DEFAULT_PROMPT - The main prompt string.
+ */
 
 export const DEFAULT_PROMPT = `
 #Overview
@@ -17,7 +23,7 @@ Generate a consumer-friendly report in plain language
   - Side Yard: Use (Y% × 25 sq ft) total distributed between both sides with minimum Z sq ft per side OR W% × 25 sq ft per side (whichever is greater), where Y%, Z sq ft, and W% are extracted from the zone district data.
   - Back Yard: 125 × X% OR reference sq ft value, whichever is less
 4. Using zoning_information, you will return the report in the following format: [Address], [Zoning District], [Lot Dimensions (L × W)], [Lot Area], [Floor Area Ratio (FAR)], [Lot Area per Unit], [Minimum Lot Area], [Minimum Lot Area], [Maximum Height], [Front Yard Setback (distance between sidewalk to your property)], [Side Yard Setback], [Back Yard Setback], [Summary]
-5. Only use imperial units. Do not use the metric system. 
+5. Only use imperial units. Do not use the metric system.
 6. The maximum height section should include the rough number of stories. For example: 30 ft (≈ 2.5 stories)
 7. If the Lot Area (125 sq ft * 25 sq ft) is less than the Lot area per unit for the zone district, add the following to the summary “The lot is smaller than the current zoning requirement for lot area per unit in this district. This means the lot is classified as a nonconforming lot. However, because the lot was legally created in the past (a lot of record), the zoning code still allows the construction of one single-family house on this property. It is important to note that while one house is permitted, the lot does not have enough land area to allow for multiple units under the current zoning rules.”
 8. Communication Standards
@@ -89,7 +95,7 @@ This property is located in the RS-3 district, intended mainly for detached home
               "maximum_height": "35 ft for detached house. None for schools and churches.",
               "front_yard_setback": "15ft, or 12% of lot depth, whichever is less. Alternatively, setback can be the average front yard depth of nearest 2 lots (properties on primary boulevards have a slightly different rule). If any lots to be included in the calculation are vacant, assume that their front yard depths are 15 feet or 12% of lot depth, whichever is less.",
               "side_yard_setback": "Townhouses: complicated as hell, see 17-2-0500. All other buildings: Combined width of side setbacks must equal 20% of lot width, and neither setback can be less than 2 feet or 8% of lot width (whichever is greater.) But no setback is required to be wider than 5 feet.",
-              "back_yard_setback": "For detached houses: 50 ft or 28% of lot depth, whichever is less. For buildings with under 20 dwelling units, of which at least 33% are \"accessible\": 50 ft or 24% of lot depth, whichever is less."
+              "back_yard_setback": "For detached houses: 50 ft or 28% of lot depth, whichever is less. For buildings with under 20 dwelling units, of which at least 33% are \\"accessible\\": 50 ft or 24% of lot depth, whichever is less."
             },
             "RT-4": {
               "floor_area_ratio": "1.2",
@@ -98,16 +104,16 @@ This property is located in the RS-3 district, intended mainly for detached home
               "maximum_height": "38 ft for detached house. None for schools and churches.",
               "front_yard_setback": "15ft, or 12% of lot depth, whichever is less. Alternatively, setback can be the average front yard depth of nearest 2 lots (properties on primary boulevards have a slightly different rule). If any lots to be included in the calculation are vacant, assume that their front yard depths are 15 feet or 12% of lot depth, whichever is less.",
               "side_yard_setback": "Townhouses: complicated as hell, see 17-2-0500. All other buildings: Combined width of side setbacks must equal 20% of lot width, and neither setback can be less than 2 feet or 8% of lot width (whichever is greater.) But no setback is required to be wider than 5 feet.",
-              "back_yard_setback": "For buildings with under 20 dwelling units, of which at least 33% are \"accessible\": 50 ft or 24% of lot depth, whichever is less. For other buildings: 50 ft or 30% of lot depth, whichever is less."
+              "back_yard_setback": "For buildings with under 20 dwelling units, of which at least 33% are \\"accessible\\": 50 ft or 24% of lot depth, whichever is less. For other buildings: 50 ft or 30% of lot depth, whichever is less."
             },
             "RT-4A": {
-              "floor_area_ratio": "1.2. 1.5 for buildings containing less than 20 dwelling units, where at least 33% of these are \"accessible.\"",
+              "floor_area_ratio": "1.2. 1.5 for buildings containing less than 20 dwelling units, where at least 33% of these are \\"accessible.\\"",
               "lot_area_per_unit": "1,000 sq ft/dwelling unit, 1,000 sq ft/efficiency unit, 500 sq ft/SRO unit",
               "min_lot_area": "1,650 sq ft",
-              "maximum_height": "42 ft for buildings with less than 20 dwelling units, where at least 33% of these are \"accessible.\" None for schools and churches.",
+              "maximum_height": "42 ft for buildings with less than 20 dwelling units, where at least 33% of these are \\"accessible.\\" None for schools and churches.",
               "front_yard_setback": "15ft, or 12% of lot depth, whichever is less. Alternatively, setback can be the average front yard depth of nearest 2 lots (properties on primary boulevards have a slightly different rule). If any lots to be included in the calculation are vacant, assume that their front yard depths are 15 feet or 12% of lot depth, whichever is less.",
               "side_yard_setback": "Townhouses: complicated as hell, see 17-2-0500. All other buildings: Combined width of side setbacks must equal 20% of lot width, and neither setback can be less than 2 feet or 8% of lot width (whichever is greater.) But no setback is required to be wider than 5 feet.",
-              "back_yard_setback": "For buildings with under 20 dwelling units, of which at least 33% are \"accessible\": 50 ft or 24% of lot depth, whichever is less. For other buildings: 50 ft or 30% of lot depth, whichever is less."
+              "back_yard_setback": "For buildings with under 20 dwelling units, of which at least 33% are \\"accessible\\": 50 ft or 24% of lot depth, whichever is less. For other buildings: 50 ft or 30% of lot depth, whichever is less."
             }
           }
         },
@@ -122,7 +128,7 @@ This property is located in the RS-3 district, intended mainly for detached home
               "maximum_height": "45 ft for residential buildings with lot frontage of less than 32 ft, 47 ft when lot front is over that. None for schools and churches.",
               "front_yard_setback": "15ft, or 12% of lot depth, whichever is less. Alternatively, setback can be the average front yard depth of nearest 2 lots (properties on primary boulevards have a slightly different rule). If any lots to be included in the calculation are vacant, assume that their front yard depths are 15 feet or 12% of lot depth, whichever is less.",
               "side_yard_setback": "Townhouses: complicated as hell, see 17-2-0500. All other buildings: Combined width of side setbacks must equal 20% of lot width, and neither setback can be less than 2 feet or 8% of lot width (whichever is greater.) But no setback is required to be wider than 5 feet.",
-              "back_yard_setback": "For buildings with under 20 dwelling units, of which at least 33% are \"accessible\": 50 ft or 24% of lot depth, whichever is less. For other buildings: 50 ft or 30% of lot depth, whichever is less."
+              "back_yard_setback": "For buildings with under 20 dwelling units, of which at least 33% are \\"accessible\\": 50 ft or 24% of lot depth, whichever is less. For other buildings: 50 ft or 30% of lot depth, whichever is less."
             },
             "RM-5": {
               "floor_area_ratio": "2",
@@ -131,7 +137,7 @@ This property is located in the RS-3 district, intended mainly for detached home
               "maximum_height": "45 ft for residential buildings with lot frontage of less than 32 ft, 47 ft when lot front is over that. None for schools and churches.",
               "front_yard_setback": "15ft, or 12% of lot depth, whichever is less. Alternatively, setback can be the average front yard depth of nearest 2 lots (properties on primary boulevards have a slightly different rule). If any lots to be included in the calculation are vacant, assume that their front yard depths are 15 feet or 12% of lot depth, whichever is less.",
               "side_yard_setback": "Townhouses: complicated as hell, see 17-2-0500. All other buildings: Combined width of side setbacks must equal 20% of lot width, and neither setback can be less than 2 feet or 8% of lot width (whichever is greater.) But no setback is required to be wider than 5 feet.",
-              "back_yard_setback": "For buildings with under 20 dwelling units, of which at least 33% are \"accessible\": 50 ft or 24% of lot depth, whichever is less. For other buildings: 50 ft or 30% of lot depth, whichever is less."
+              "back_yard_setback": "For buildings with under 20 dwelling units, of which at least 33% are \\"accessible\\": 50 ft or 24% of lot depth, whichever is less. For other buildings: 50 ft or 30% of lot depth, whichever is less."
             },
             "RM-5.5": {
               "floor_area_ratio": "2.5",
@@ -140,7 +146,7 @@ This property is located in the RS-3 district, intended mainly for detached home
               "maximum_height": "47 ft for residential buildings with lot frontage of less than 75 ft, 60 ft when lot front is over that. None for schools and churches.",
               "front_yard_setback": "15ft, or 12% of lot depth, whichever is less. Alternatively, setback can be the average front yard depth of nearest 2 lots (properties on primary boulevards have a slightly different rule). If any lots to be included in the calculation are vacant, assume that their front yard depths are 15 feet or 12% of lot depth, whichever is less.",
               "side_yard_setback": "Townhouses: complicated as hell, see 17-2-0500. All other buildings: Combined width of side setbacks must equal 20% of lot width, and neither setback can be less than 2 feet or 8% of lot width (whichever is greater.) But no setback is required to be wider than 5 feet.",
-              "back_yard_setback": "For buildings with under 20 dwelling units, of which at least 33% are \"accessible\": 50 ft or 24% of lot depth, whichever is less. For other buildings: 50 ft or 30% of lot depth, whichever is less."
+              "back_yard_setback": "For buildings with under 20 dwelling units, of which at least 33% are \\"accessible\\": 50 ft or 24% of lot depth, whichever is less. For other buildings: 50 ft or 30% of lot depth, whichever is less."
             },
             "RM-6": {
               "floor_area_ratio": "4.4",
@@ -149,7 +155,7 @@ This property is located in the RS-3 district, intended mainly for detached home
               "maximum_height": "None, but tall buildings require planned development approval (see Sec. 17-13-0600).",
               "front_yard_setback": "15ft, or 12% of lot depth, whichever is less. Alternatively, setback can be the average front yard depth of nearest 2 lots (properties on primary boulevards have a slightly different rule). If any lots to be included in the calculation are vacant, assume that their front yard depths are 15 feet or 12% of lot depth, whichever is less.",
               "side_yard_setback": "Townhouses: complicated as hell, see 17-2-0500. All other buildings: none if building abuts the street or alley, or if building covers less than 50% of its lot. If more than 50%, building's side setbacks must equal 10% of lot width or 10% of building height (whichever is greater), but no setback needs to be wider than 20 ft.",
-              "back_yard_setback": "For buildings with under 20 dwelling units, of which at least 33% are \"accessible\": 50 ft or 24% of lot depth, whichever is less. For other buildings: 50 ft or 30% of lot depth, whichever is less."
+              "back_yard_setback": "For buildings with under 20 dwelling units, of which at least 33% are \\"accessible\\": 50 ft or 24% of lot depth, whichever is less. For other buildings: 50 ft or 30% of lot depth, whichever is less."
             },
             "RM-6.5": {
               "floor_area_ratio": "6.6",
@@ -158,7 +164,7 @@ This property is located in the RS-3 district, intended mainly for detached home
               "maximum_height": "None, but tall buildings require planned development approval (see Sec. 17-13-0600).",
               "front_yard_setback": "15ft, or 12% of lot depth, whichever is less. Alternatively, setback can be the average front yard depth of nearest 2 lots (properties on primary boulevards have a slightly different rule). If any lots to be included in the calculation are vacant, assume that their front yard depths are 15 feet or 12% of lot depth, whichever is less.",
               "side_yard_setback": "Townhouses: complicated as hell, see 17-2-0500. All other buildings: none if building abuts the street or alley, or if building covers less than 50% of its lot. If more than 50%, building's side setbacks must equal 10% of lot width or 10% of building height (whichever is greater), but no setback needs to be wider than 20 ft.",
-              "back_yard_setback": "For buildings with under 20 dwelling units, of which at least 33% are \"accessible\": 50 ft or 24% of lot depth, whichever is less. For other buildings: 50 ft or 30% of lot depth, whichever is less."
+              "back_yard_setback": "For buildings with under 20 dwelling units, of which at least 33% are \\"accessible\\": 50 ft or 24% of lot depth, whichever is less. For other buildings: 50 ft or 30% of lot depth, whichever is less."
             }
           }
         }
@@ -442,7 +448,7 @@ This property is located in the RS-3 district, intended mainly for detached home
             "DC-12": {
               "floor_area_ratio": "12",
               "lot_area_per_unit": "115 sq ft/dwelling unit, 75 sq ft/efficiency unit, 60 sq ft/SRO unit",
-              "maximum_height": "None, but buildings taller than city's \"building height thresholds\" require Planned Development review.",
+              "maximum_height": "None, but buildings taller than city's \\"building height thresholds\\" require Planned Development review.",
               "front_yard_setback": "None",
               "side_yard_setback": "None",
               "back_yard_setback": "None"
@@ -450,7 +456,7 @@ This property is located in the RS-3 district, intended mainly for detached home
             "DC-16": {
               "floor_area_ratio": "16",
               "lot_area_per_unit": "100 sq ft/dwelling unit, 65 sq ft/efficiency unit, 50 sq ft/SRO unit",
-              "maximum_height": "None, but buildings taller than city's \"building height thresholds\" require Planned Development review.",
+              "maximum_height": "None, but buildings taller than city's \\"building height thresholds\\" require Planned Development review.",
               "front_yard_setback": "None",
               "side_yard_setback": "None",
               "back_yard_setback": "None"
@@ -464,7 +470,7 @@ This property is located in the RS-3 district, intended mainly for detached home
             "DR-3": {
               "floor_area_ratio": "3",
               "lot_area_per_unit": "400 sq ft/dwelling unit, 300 sq ft/efficiency unit, 200 sq ft/SRO unit",
-              "maximum_height": "None, but buildings taller than city's \"building height thresholds\" require Planned Development review.",
+              "maximum_height": "None, but buildings taller than city's \\"building height thresholds\\" require Planned Development review.",
               "front_yard_setback": "15ft, or 12% of lot depth, whichever is less. Alternatively, setback can be the average front yard depth of nearest 2 lots (properties on primary boulevards have a slightly different rule). If any lots to be included in the calculation are vacant, assume that their front yard depths are 15 feet or 12% of lot depth, whichever is less. (Buildings and structures in DR districts are subject to the R district front setback standards of Sec. 17-2-0305.)",
               "side_yard_setback": "None",
               "back_yard_setback": "For detached houses, 28% of lot depth or 50 feet (whichever is less.) For principal buildings, 30% of lot depth or 50 feet (whichever is less), but this only applies to parts of buildings 18 feet or more above grade."
@@ -472,7 +478,7 @@ This property is located in the RS-3 district, intended mainly for detached home
             "DR-5": {
               "floor_area_ratio": "5",
               "lot_area_per_unit": "200 sq ft/dwelling unit, 135 sq ft/efficiency unit, 100 sq ft/SRO unit",
-              "maximum_height": "None, but buildings taller than city's \"building height thresholds\" require Planned Development review.",
+              "maximum_height": "None, but buildings taller than city's \\"building height thresholds\\" require Planned Development review.",
               "front_yard_setback": "15ft, or 12% of lot depth, whichever is less. Alternatively, setback can be the average front yard depth of nearest 2 lots (properties on primary boulevards have a slightly different rule). If any lots to be included in the calculation are vacant, assume that their front yard depths are 15 feet or 12% of lot depth, whichever is less. (Buildings and structures in DR districts are subject to the R district front setback standards of Sec. 17-2-0305.)",
               "side_yard_setback": "None",
               "back_yard_setback": "For detached houses, 28% of lot depth or 50 feet (whichever is less.) For principal buildings, 30% of lot depth or 50 feet (whichever is less), but this only applies to parts of buildings 18 feet or more above grade."
@@ -480,7 +486,7 @@ This property is located in the RS-3 district, intended mainly for detached home
             "DR-7": {
               "floor_area_ratio": "7",
               "lot_area_per_unit": "145 sq ft/dwelling unit, 90 sq ft/efficiency unit, 75 sq ft/SRO unit",
-              "maximum_height": "None, but buildings taller than city's \"building height thresholds\" require Planned Development review.",
+              "maximum_height": "None, but buildings taller than city's \\"building height thresholds\\" require Planned Development review.",
               "front_yard_setback": "15ft, or 12% of lot depth, whichever is less. Alternatively, setback can be the average front yard depth of nearest 2 lots (properties on primary boulevards have a slightly different rule). If any lots to be included in the calculation are vacant, assume that their front yard depths are 15 feet or 12% of lot depth, whichever is less. (Buildings and structures in DR districts are subject to the R district front setback standards of Sec. 17-2-0305.)",
               "side_yard_setback": "None",
               "back_yard_setback": "For detached houses, 28% of lot depth or 50 feet (whichever is less.) For principal buildings, 30% of lot depth or 50 feet (whichever is less), but this only applies to parts of buildings 18 feet or more above grade."
@@ -488,7 +494,7 @@ This property is located in the RS-3 district, intended mainly for detached home
             "DR-10": {
               "floor_area_ratio": "10",
               "lot_area_per_unit": "115 sq ft/dwelling unit, 75 sq ft/efficiency unit, 60 sq ft/SRO unit",
-              "maximum_height": "None, but buildings taller than city's \"building height thresholds\" require Planned Development review.",
+              "maximum_height": "None, but buildings taller than city's \\"building height thresholds\\" require Planned Development review.",
               "front_yard_setback": "15ft, or 12% of lot depth, whichever is less. Alternatively, setback can be the average front yard depth of nearest 2 lots (properties on primary boulevards have a slightly different rule). If any lots to be included in the calculation are vacant, assume that their front yard depths are 15 feet or 12% of lot depth, whichever is less. (Buildings and structures in DR districts are subject to the R district front setback standards of Sec. 17-2-0305.)",
               "side_yard_setback": "None",
               "back_yard_setback": "For detached houses, 28% of lot depth or 50 feet (whichever is less.) For principal buildings, 30% of lot depth or 50 feet (whichever is less), but this only applies to parts of buildings 18 feet or more above grade."
@@ -502,7 +508,7 @@ This property is located in the RS-3 district, intended mainly for detached home
             "DS-3": {
               "floor_area_ratio": "3",
               "lot_area_per_unit": "400 sq ft/dwelling unit, 300 sq ft/efficiency unit, 200 sq ft/SRO unit",
-              "maximum_height": "None, but buildings taller than city's \"building height thresholds\" require Planned Development review.",
+              "maximum_height": "None, but buildings taller than city's \\"building height thresholds\\" require Planned Development review.",
               "front_yard_setback": "None",
               "side_yard_setback": "None",
               "back_yard_setback": "30ft for floors containing dwelling units. All others, none."
@@ -510,7 +516,7 @@ This property is located in the RS-3 district, intended mainly for detached home
             "DS-5": {
               "floor_area_ratio": "5",
               "lot_area_per_unit": "200 sq ft/dwelling unit, 135 sq ft/efficiency unit, 100 sq ft/SRO unit",
-              "maximum_height": "None, but buildings taller than city's \"building height thresholds\" require Planned Development review.",
+              "maximum_height": "None, but buildings taller than city's \\"building height thresholds\\" require Planned Development review.",
               "front_yard_setback": "None",
               "side_yard_setback": "None",
               "back_yard_setback": "30ft for floors containing dwelling units. All others, none."
@@ -524,7 +530,7 @@ This property is located in the RS-3 district, intended mainly for detached home
             "DX-12": {
               "floor_area_ratio": "12",
               "lot_area_per_unit": "115 sq ft/dwelling unit, 75 sq ft/efficiency unit, 60 sq ft/SRO unit",
-              "maximum_height": "None, but buildings taller than city's \"building height thresholds\" require Planned Development review.",
+              "maximum_height": "None, but buildings taller than city's \\"building height thresholds\\" require Planned Development review.",
               "front_yard_setback": "None",
               "side_yard_setback": "None",
               "back_yard_setback": "None"
@@ -532,7 +538,7 @@ This property is located in the RS-3 district, intended mainly for detached home
             "DX-16": {
               "floor_area_ratio": "16",
               "lot_area_per_unit": "100 sq ft/dwelling unit, 65 sq ft/efficiency unit, 50 sq ft/SRO unit",
-              "maximum_height": "None, but buildings taller than city's \"building height thresholds\" require Planned Development review.",
+              "maximum_height": "None, but buildings taller than city's \\"building height thresholds\\" require Planned Development review.",
               "front_yard_setback": "None",
               "side_yard_setback": "None",
               "back_yard_setback": "None"
@@ -540,7 +546,7 @@ This property is located in the RS-3 district, intended mainly for detached home
             "DX-3": {
               "floor_area_ratio": "3",
               "lot_area_per_unit": "400 sq ft/dwelling unit, 300 sq ft/efficiency unit, 200 sq ft/SRO unit",
-              "maximum_height": "None, but buildings taller than city's \"building height thresholds\" require Planned Development review.",
+              "maximum_height": "None, but buildings taller than city's \\"building height thresholds\\" require Planned Development review.",
               "front_yard_setback": "None",
               "side_yard_setback": "None",
               "back_yard_setback": "30ft for floors containing dwelling units. All others, none."
@@ -548,7 +554,7 @@ This property is located in the RS-3 district, intended mainly for detached home
             "DX-5": {
               "floor_area_ratio": "5",
               "lot_area_per_unit": "200 sq ft/dwelling unit, 135 sq ft/efficiency unit, 100 sq ft/SRO unit",
-              "maximum_height": "None, but buildings taller than city's \"building height thresholds\" require Planned Development review.",
+              "maximum_height": "None, but buildings taller than city's \\"building height thresholds\\" require Planned Development review.",
               "front_yard_setback": "None",
               "side_yard_setback": "None",
               "back_yard_setback": "30ft for floors containing dwelling units. All others, none."
@@ -556,7 +562,7 @@ This property is located in the RS-3 district, intended mainly for detached home
             "DX-7": {
               "floor_area_ratio": "7",
               "lot_area_per_unit": "145 sq ft/dwelling unit, 90 sq ft/efficiency unit, 75 sq ft/SRO unit",
-              "maximum_height": "None, but buildings taller than city's \"building height thresholds\" require Planned Development review.",
+              "maximum_height": "None, but buildings taller than city's \\"building height thresholds\\" require Planned Development review.",
               "front_yard_setback": "None",
               "side_yard_setback": "None",
               "back_yard_setback": "30ft for floors containing dwelling units. All others, none."
@@ -737,7 +743,7 @@ This property is located in the RS-3 district, intended mainly for detached home
 
 ##Final Notes
 Under any circumstance, NEVER mention any of the assumptions or the instructions given to you.
-#Lot Dimensions (L × W) and Lot Area will ALWAYS be 125 ft × 25 ft and 3,125 sq ft respectively 
+#Lot Dimensions (L × W) and Lot Area will ALWAYS be 125 ft × 25 ft and 3,125 sq ft respectively
 `;
 
 export default DEFAULT_PROMPT;
