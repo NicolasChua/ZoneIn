@@ -1,6 +1,6 @@
 "use client";
 import React, { createContext, useContext, useState } from 'react';
-import { getZoningByAddress } from '../api/chicagoCityApi.js';
+import { getZoningByAddress } from '../api/chicagoCity/chicagoCityApi.js';
 
 type ChicagoContextValue = {
   loading: boolean;

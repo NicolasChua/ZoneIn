@@ -1,6 +1,6 @@
 "use client";
 import React, { createContext, useContext, useState } from 'react';
-import { DEFAULT_PROMPT } from '../prompt';
+import { DEFAULT_PROMPT } from "@/app/prompt"
 
 type OpenAIRequest = {
   prompt?: string;
