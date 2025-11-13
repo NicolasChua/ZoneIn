@@ -1,65 +1,107 @@
+/**
+ * @description
+ * This file defines the OpenAIProvider and a custom hook `useOpenAI`.
+ * The provider manages the state for interacting with our backend's OpenAI endpoint.
+ * It provides a `sendPrompt` function that takes an address, sends it to our API route,
+ * and returns the AI-generated report.
+ *
+ * @dependencies
+ * - react: For creating context and using hooks.
+ * - @/app/prompt: Contains the base prompt, although it's used on the server now.
+ *
+ * @exports
+ * - OpenAIProvider: The context provider component.
+ * - useOpenAI: The custom hook to consume the context.
+ */
 "use client";
-import React, { createContext, useContext, useState } from 'react';
-import { DEFAULT_PROMPT } from "@/app/prompt"
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
+// The base prompt is now used on the server, but we keep the type for consistency.
 type OpenAIRequest = {
-  prompt?: string;
-  address?: string | Record<string, any>;
-  zoning?: string;
-  basePrompt?: string;
+  address: string;
 };
 
+// Define the shape of the context value.
 type OpenAIContextValue = {
   loading: boolean;
   error: string | null;
-  // sendPrompt now requires address and zoning
-  sendPrompt: (address: string, zoning: string, basePrompt?: string) => Promise<any>;
+  sendPrompt: (address: string) => Promise<any>;
 };
 
+// Create the context.
 const OpenAIContext = createContext<OpenAIContextValue | undefined>(undefined);
 
-export const OpenAIProvider = ({ children }: { children: React.ReactNode }) => {
+/**
+ * Provides the OpenAI API interaction context to its children.
+ * @param {object} props - The component props.
+ * @param {ReactNode} props.children - The child components to render.
+ */
+export const OpenAIProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function sendPrompt(address: string, zoning: string) {
-    console.log('sendPrompt called with:', { address, zoning });
+  /**
+   * Sends an address to our backend API to generate a zoning report.
+   * @param {string} address - The property address to generate a report for.
+   * @returns {Promise<any>} A promise that resolves with the response from the OpenAI API.
+   * @throws Will throw an error if the address is missing or the API call fails.
+   */
+  async function sendPrompt(address: string) {
     setLoading(true);
     setError(null);
+
     try {
-      if (!address || !zoning) {
-        throw new Error('sendPrompt requires address and zoning');
+      if (!address) {
+        throw new Error('sendPrompt requires an address');
       }
 
-      const payload: OpenAIRequest = { address, zoning, basePrompt: DEFAULT_PROMPT };
+      const payload: OpenAIRequest = { address };
 
-      const res = await fetch('http://localhost:3000/api/openai-api', {
+      // The URL is now the Next.js API route we created in Step 5.
+      const res = await fetch('/api/zoning', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
 
       const data = await res.json();
-      console.log('OpenAI response data:', data);
+
+      if (!res.ok) {
+        throw new Error(data?.error || 'An error occurred while generating the report.');
+      }
+
       setLoading(false);
-      if (!res.ok) throw new Error(data?.error || 'OpenAI API error');
       return data;
     } catch (err: any) {
+      const errorMessage = err?.message || String(err);
       setLoading(false);
-      setError(err?.message || String(err));
-      throw err;
+      setError(errorMessage);
+      throw new Error(errorMessage);
     }
   }
 
+  const contextValue: OpenAIContextValue = {
+    loading,
+    error,
+    sendPrompt,
+  };
+
   return (
-    <OpenAIContext.Provider value={{ loading, error, sendPrompt }}>
+    <OpenAIContext.Provider value={contextValue}>
       {children}
     </OpenAIContext.Provider>
   );
 };
 
+/**
+ * Custom hook to consume the OpenAIContext.
+ * @returns The context value.
+ * @throws Will throw an error if used outside of an OpenAIProvider.
+ */
 export function useOpenAI() {
   const ctx = useContext(OpenAIContext);
-  if (!ctx) throw new Error('useOpenAI must be used within an OpenAIProvider');
+  if (!ctx) {
+    throw new Error('useOpenAI must be used within an OpenAIProvider');
+  }
   return ctx;
 }
