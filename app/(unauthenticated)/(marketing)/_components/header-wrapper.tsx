@@ -1,4 +1,4 @@
-import { getCustomerByUserId } from "@/actions/customers"
+import { getCustomerByUserId } from "@/src/actions/customers"
 import { SelectCustomer } from "@/db/schema/customers"
 import { currentUser } from "@clerk/nextjs/server"
 import { Header } from "./header"

@@ -1,4 +1,4 @@
-import { getBillingDataByUserId } from "@/actions/customers"
+import { getBillingDataByUserId } from "@/src/actions/customers"
 import { auth } from "@clerk/nextjs/server"
 import { AlertCircle, CreditCard } from "lucide-react"
 
